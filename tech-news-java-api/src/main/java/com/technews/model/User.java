@@ -23,7 +23,7 @@ public class User implements Serializable {
     private List<Post> posts;
     // Need to use FetchType.LAZY to resolve multiple bags exception
     @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<vote> votes;
+    private List<Vote> votes;
     // Need to use FetchType.LAZY to resolve multiple bags exception
     @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Comment> comment;
@@ -80,10 +80,10 @@ public class User implements Serializable {
         this.votes = votes;
     }
     public List<Comment> getComments() {
-        return comments;
+        return comment;
     }
     public void setComments(List<Comment> comments) {
-        this.comments = comments;
+        this.comment = comments;
     }
     @Override
     public boolean equals(Object o) {
@@ -113,7 +113,7 @@ public class User implements Serializable {
                 ", loggedIn=" + loggedIn +
                 ", posts=" + posts +
                 ", votes=" + votes +
-                ", comments=" + comments +
+                ", comments=" + comment +
                 '}';
     }
 }
