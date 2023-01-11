@@ -48,4 +48,11 @@ public class PostController {
         repository.save(post);
         return post;
     }
+
+    @GetMapping("/api/posts/{id}")
+    public Post updatePost(@PathVariable int id, @RequestBody Post post) {
+        Post tempPost = repository.getById(id);
+        tempPost.setTitle(post.getTitle());
+        return repository.save(tempPost);
+    }
 }
