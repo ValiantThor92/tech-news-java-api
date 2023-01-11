@@ -42,4 +42,10 @@ public class PostController {
         return returnPost;
     }
 
+    @GetMapping("/api/posts")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Post AddPost(@RequestBody Post post) {
+        repository.save(post);
+        return post;
+    }
 }
