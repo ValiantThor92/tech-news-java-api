@@ -6,6 +6,7 @@ import com.technews.model.Vote;
 import com.technews.repository.PostRepository;
 import com.technews.repository.UserRepository;
 import com.technews.repository.VoteRepository;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -54,5 +55,27 @@ public class PostController {
         Post tempPost = repository.getById(id);
         tempPost.setTitle(post.getTitle());
         return repository.save(tempPost);
+    }
+
+    @PutMapping("/api/posts/upvote")
+    public String addVote(@RequestBody Vote vote, HttpServletRequest request) {
+        String returnValue = "";
+
+        if(request.getSession(false) != null) {
+            Post returnPost = null;
+
+            User sessionUser = (User) request.getSession().getAttribute("SESSION_USER");
+            vote.setUserId(sessionUser.getId());
+            voteRepository.save(vote);
+
+            returnPost = repository.getById(vote.getPostId());
+            returnPost.setVoteCount(voteRepository.countVotesByPostId(vote.getPostId()));
+
+            returnValue = "";
+        } else {
+            returnValue = "login";
+        }
+
+        return returnValue;
     }
 }
